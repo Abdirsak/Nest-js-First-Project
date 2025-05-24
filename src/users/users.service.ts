@@ -23,6 +23,13 @@ export class UsersService {
       age: 23,
       isMaried: false,
     },
+    {
+      id: 3,
+      name: 'Sahra Abdirahman',
+      gender: 'Female',
+      age: 26,
+      isMaried: true,
+    },
   ];
   getAllUsers() {
     return this.users;
