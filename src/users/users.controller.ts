@@ -1,17 +1,24 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  DefaultValuePipe,
+  Get,
+  Param,
+  ParseArrayPipe,
+  ParseIntPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
   @Get()
-  getAllUsers(@Query() query: any) {
-    const queryParams = { ...query };
+  getAllUsers(
+    @Query('limit', new DefaultValuePipe(10), new ParseIntPipe()) limit: number,
+    @Query('page', new DefaultValuePipe(1), new ParseIntPipe()) page: number,
+  ) {
     const userServices = new UsersService();
-    if (query.gender) {
-      return userServices
-        .getAllUsers()
-        .filter((user) => user.gender === query.gender);
-    }
+    console.log(`Limit: ${limit}, Page: ${page}`);
     return userServices.getAllUsers();
   }
 
@@ -29,8 +36,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  getUserById(@Param('id') id: number) {
+  getUserById(@Param('id', ParseIntPipe) id: number) {
     const userServices = new UsersService();
-    return userServices.getUserById(+id);
+    return userServices.getUserById(id);
   }
 }
