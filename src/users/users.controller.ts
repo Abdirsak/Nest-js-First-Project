@@ -1,9 +1,11 @@
+/* eslint-disable */
 import {
   Controller,
   DefaultValuePipe,
   Get,
   Param,
   ParseArrayPipe,
+  ParseBoolPipe,
   ParseIntPipe,
   Post,
   Query,
@@ -16,9 +18,12 @@ export class UsersController {
   getAllUsers(
     @Query('limit', new DefaultValuePipe(10), new ParseIntPipe()) limit: number,
     @Query('page', new DefaultValuePipe(1), new ParseIntPipe()) page: number,
+    @Query('isMarried')
+    isMarried?: boolean,
   ) {
     const userServices = new UsersService();
     console.log(`Limit: ${limit}, Page: ${page}`);
+    console.log(`Is Married: ${isMarried}`);
     return userServices.getAllUsers();
   }
 
